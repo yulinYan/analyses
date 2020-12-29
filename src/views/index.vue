@@ -46,8 +46,8 @@
           <div class="leftThree">
             <div class="leftThreeEchart">
               <el-tabs type="border-card" v-model="tabPage">
-                <el-tab-pane label="事件单" name='0'>
-                  <el-table :data="pagesData.eventData" height="100%" align="center" :row-class-name="tableRowClassName" stripe>
+                <el-tab-pane label="事件单" name='0' ref="elTabPaneHeight1">
+                  <el-table :data="pagesData.eventData" :height="elTabPaneHeight" align="center" :row-class-name="tableRowClassName" stripe>
                     <el-table-column prop="date" show-overflow-tooltip label="事件">
                     </el-table-column>
                     <el-table-column prop="name" show-overflow-tooltip label="描述">
@@ -58,7 +58,7 @@
                     </el-table-column>
                   </el-table>
                 </el-tab-pane>
-                <el-tab-pane label="告警中心" name='1'>
+                <el-tab-pane label="告警中心" name='1' ref="elTabPaneHeight2">
                   <el-table :data="pagesData.eventData" height="100%" :row-class-name="tableRowClassName" show-overflow-tooltip stripe>
                     <el-table-column prop="date" show-overflow-tooltip label="信息">
                     </el-table-column>
@@ -189,6 +189,7 @@ export default {
   data() {
     return {
       tabPage: '1', //选项卡绑定的值
+      elTabPaneHeight: '100%',
       show3: false,
       nodekeid: null,
       checkedApplication: '',
@@ -389,6 +390,12 @@ export default {
       option7: {},
       option3: {}, //本月发生  右边第一个雷达图
       option1: {} //系统集群性能概览   右边第二个
+    }
+  },
+  watch: {
+    tabPage(newValue, oldValue) {
+      console.log(newValue)
+      this.elTabPaneHeight = this.$refs.elTabPaneHeight1.offsetHeight
     }
   },
   created() {
@@ -709,8 +716,8 @@ export default {
       this.option5 = {
         title: {
           //text: `${value}万辆`,
-          text: `当日占比：${value}%`,
-          subtext: '',
+          text: `当日占比`,
+          subtext: `${value}%`,
           left: 'center',
           top: 'center', //top待调整
           textStyle: {
@@ -718,16 +725,22 @@ export default {
             fontSize: 14,
             fontFamily: 'PingFangSC-Regular'
           },
+          // subtextStyle: {             },
           tooltip: {
-            formatter: function (params) {
-              return '<span style="color: #fff;">当日预警数量：' + value + '</span>'
-            }
+            trigger: 'item',
+            formatter: '{a} <br/>{b}({d}%)'
           },
           subtextStyle: {
-            color: '#ff',
+            color: '#fff',
             fontSize: 14,
             fontFamily: 'PingFangSC-Regular',
-            top: 'center'
+            top: 'top'
+          },
+          legend: {
+            orient: 'vertical',
+            left: '70%', //图例距离左的距离
+            y: 'center', //图例上下居中
+            data: ['']
           },
           itemGap: -1 //主副标题间距
         },
@@ -815,8 +828,8 @@ export default {
       this.option6 = {
         title: {
           //text: `${value}万辆`,
-          text: `当日占比：${value}%`,
-          subtext: '',
+          text: `当日占比`,
+          subtext: `${value}%`,
           left: 'center',
           top: 'center', //top待调整
           textStyle: {
@@ -921,8 +934,8 @@ export default {
       this.option7 = {
         title: {
           //text: `${value}万辆`,
-          text: `当日占比：${value}%`,
-          subtext: '',
+          text: `当日占比`,
+          subtext: `${value}%`,
           left: 'center',
           top: 'center', //top待调整
           textStyle: {
@@ -1161,6 +1174,14 @@ export default {
     oRightTwoEchartSet() {
       //  第一个饼状图
       this.option1 = {
+        title: {
+          subtext: '磁盘使用率',
+          subtextStyle: {
+            color: '#ffffff'
+          },
+          right: 20,
+          top: -13
+        },
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)',
@@ -1186,10 +1207,10 @@ export default {
         },
         series: [
           {
-            name: '访问来源',
+            name: '磁盘使用率',
             type: 'pie',
             radius: ['45%', '80%'],
-            center: ['70%', '50%'],
+            center: ['70%', '60%'],
             avoidLabelOverlap: false,
             label: {
               show: false,
@@ -1216,6 +1237,14 @@ export default {
         ]
       }
       this.option9 = {
+        title: {
+          subtext: 'CPU使用率',
+          subtextStyle: {
+            color: '#ffffff'
+          },
+          left: 20,
+          top: -13
+        },
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)',
@@ -1241,10 +1270,10 @@ export default {
         },
         series: [
           {
-            name: '访问来源',
+            name: 'CPU使用率',
             type: 'pie',
             radius: ['45%', '80%'],
-            center: ['30%', '50%'],
+            center: ['30%', '60%'],
             avoidLabelOverlap: false,
             label: {
               show: false,
@@ -1271,6 +1300,14 @@ export default {
         ]
       }
       this.option10 = {
+        title: {
+          subtext: '内存使用率',
+          subtextStyle: {
+            color: '#ffffff'
+          },
+          right: 20,
+          top: -13
+        },
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)',
@@ -1296,10 +1333,10 @@ export default {
         },
         series: [
           {
-            name: '访问来源',
+            name: '内存使用率',
             type: 'pie',
             radius: ['45%', '80%'],
-            center: ['70%', '50%'],
+            center: ['70%', '60%'],
             avoidLabelOverlap: false,
             label: {
               show: false,
@@ -1326,6 +1363,14 @@ export default {
         ]
       }
       this.option11 = {
+        title: {
+          subtext: 'IO使用率',
+          subtextStyle: {
+            color: '#ffffff'
+          },
+          left: 20,
+          top: -13
+        },
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)',
@@ -1351,10 +1396,10 @@ export default {
         },
         series: [
           {
-            name: '访问来源',
+            name: 'IO使用率',
             type: 'pie',
             radius: ['45%', '80%'],
-            center: ['30%', '50%'],
+            center: ['30%', '60%'],
             avoidLabelOverlap: false,
             label: {
               show: false,
@@ -1625,18 +1670,8 @@ export default {
           width: 100%;
           margin-top: 10px;
           background-color: rgba(0, 168, 255, 0.2);
-          .leftThreeTitle {
-            height: 36px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            span {
-              display: block;
-              margin: 0 20px;
-            }
-          }
           .leftThreeEchart {
-            height: calc(100% - 36px);
+            height: 100%;
             width: 100%;
             display: flex;
             justify-content: space-between;
@@ -1709,6 +1744,10 @@ export default {
               border: none;
               color: #00a8ff;
             }
+            /deep/ .el-tabs--border-card > .el-tabs__content {
+              // height: 72%;
+              padding-bottom: 0;
+            }
           }
         }
       }
@@ -1759,7 +1798,7 @@ export default {
         }
         .middleTwo {
           width: 100%;
-          height: 40%;
+          height: 50%;
           border: 1px solid #00d8ff;
 
           margin-top: 14px;
@@ -1782,10 +1821,12 @@ export default {
         }
         .middleThree {
           width: 100%;
-          height: 27%;
-          margin-top: 15px;
+          height: 17%;
+          margin-top: 20px;
           background: #10365780;
           border: 1px solid #345f92;
+          padding-bottom: 10px;
+          box-sizing: border-box;
           .middleThreeTitle {
             height: 24px;
             line-height: 24px;
@@ -1854,6 +1895,7 @@ export default {
             }
             /deep/ .el-carousel--horizontal {
               overflow-x: clip !important;
+              overflow: hidden;
             }
           }
 
