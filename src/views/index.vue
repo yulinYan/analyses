@@ -11,7 +11,7 @@
         <div class="leftContent">
           <div class="leftOne">
             <div class="leftOneTitle">
-              <img src="../assets/img/fltleftbg.png" alt="">
+              <!-- <img src="../assets/img/fltleftbg.png" alt=""> -->
               <span>微服务交易量排名</span>
             </div>
             <div class="leftOneEchart">
@@ -47,7 +47,7 @@
             <div class="leftThreeEchart">
               <el-tabs type="border-card" v-model="tabPage">
                 <el-tab-pane label="事件单" name='0' ref="elTabPaneHeight1">
-                  <el-table :data="pagesData.eventData" :height="elTabPaneHeight" align="center" :row-class-name="tableRowClassName" stripe>
+                  <el-table :data="pagesData.eventData" height="100%" align="center" :row-class-name="tableRowClassName" stripe>
                     <el-table-column prop="date" show-overflow-tooltip label="事件">
                     </el-table-column>
                     <el-table-column prop="name" show-overflow-tooltip label="描述">
@@ -117,16 +117,22 @@
             <div class="middleThreeTitle">实时统计</div>
             <div class="middleThreeEchartBox">
               <div class="middleThreeEchartBlock">
+                <span>当日预警数量</span>
+                <!-- <span>当日预警数量：{{middelBottomInfo.middelBottomOneCount}}</span> -->
                 <div class="middleThreeEchart" id="middleThreeEcharts1"></div>
-                <span>当日预警数量：{{middelBottomInfo.middelBottomOneCount}}</span>
+
               </div>
               <div class="middleThreeEchartBlock">
+                <!-- <span>当日变更数量{{middelBottomInfo.middelBottomTwoCount}}</span> -->
+                <span>当日变更数量</span>
                 <div class="middleThreeEchart" id="middleThreeEcharts2"></div>
-                <span>当日变更数量{{middelBottomInfo.middelBottomTwoCount}}</span>
+
               </div>
               <div class="middleThreeEchartBlock">
+                <!-- <span>当日用户数量：{{middelBottomInfo.middelBottomThreeCount}}</span> -->
+                <span>当日用户数量</span>
                 <div class="middleThreeEchart" id="middleThreeEcharts3"></div>
-                <span>当日用户数量：{{middelBottomInfo.middelBottomThreeCount}}</span>
+
               </div>
             </div>
           </div>
@@ -134,7 +140,7 @@
         <div class="rightContent">
           <div class="rightOne">
             <div class="rightOneTitle">
-              <img src="../assets/img/fltrightbg.png" alt="">
+              <!-- <img src="../assets/img/fltrightbg.png" alt=""> -->
               <span>当月发生</span>
             </div>
             <div class="rightOneEchartBox">
@@ -392,18 +398,12 @@ export default {
       option1: {} //系统集群性能概览   右边第二个
     }
   },
-  watch: {
-    tabPage(newValue, oldValue) {
-      console.log(newValue)
-      this.elTabPaneHeight = this.$refs.elTabPaneHeight1.offsetHeight
-    }
-  },
   created() {
     this.pagesData.eventData = this.leftThirdBaseData.slice(2, 6)
   },
   mounted() {
     this.autoScroll()
-    this.tabPageAutoChange()
+    // this.tabPageAutoChange()
     this.oleftTwoEcharts = this.$echarts.init(document.getElementById('leftTwoEcharts'))
     this.oMiddleThreeEcharts1 = this.$echarts.init(document.getElementById('middleThreeEcharts1'))
     this.oMiddleThreeEcharts2 = this.$echarts.init(document.getElementById('middleThreeEcharts2'))
@@ -716,8 +716,8 @@ export default {
       this.option5 = {
         title: {
           //text: `${value}万辆`,
-          text: `当日占比`,
-          subtext: `${value}%`,
+          text: `${value}`,
+          subtext: ``,
           left: 'center',
           top: 'center', //top待调整
           textStyle: {
@@ -768,7 +768,7 @@ export default {
                 name: 'completed',
                 itemStyle: {
                   normal: {
-                    borderWidth: 8,
+                    borderWidth: 3,
                     borderColor: {
                       colorStops: [
                         {
@@ -828,8 +828,8 @@ export default {
       this.option6 = {
         title: {
           //text: `${value}万辆`,
-          text: `当日占比`,
-          subtext: `${value}%`,
+          text: `${value}`,
+          subtext: ``,
           left: 'center',
           top: 'center', //top待调整
           textStyle: {
@@ -874,7 +874,7 @@ export default {
                 name: 'completed',
                 itemStyle: {
                   normal: {
-                    borderWidth: 8,
+                    borderWidth: 3,
                     borderColor: {
                       colorStops: [
                         {
@@ -934,8 +934,8 @@ export default {
       this.option7 = {
         title: {
           //text: `${value}万辆`,
-          text: `当日占比`,
-          subtext: `${value}%`,
+          text: `${value}`,
+          subtext: ``,
           left: 'center',
           top: 'center', //top待调整
           textStyle: {
@@ -980,7 +980,7 @@ export default {
                 name: 'completed',
                 itemStyle: {
                   normal: {
-                    borderWidth: 8,
+                    borderWidth: 3,
                     borderColor: {
                       colorStops: [
                         {
@@ -1529,7 +1529,8 @@ export default {
 
 <style scoped lang="scss">
 .app-content {
-  background-image: url('../assets/img/data08.png');
+  // background-image: url('../assets/img/data08.png');
+  background-color: #061436;
   background-size: 100%;
   width: 100vw;
   height: 100vh;
@@ -1577,6 +1578,8 @@ export default {
         .leftOne {
           height: 30%;
           width: 100%;
+          border: 1px solid #00d8ff;
+          background-color: rgba(0, 168, 255, 0.2);
           .leftOneTitle {
             width: 100%;
             height: 80px;
@@ -1596,7 +1599,6 @@ export default {
             }
           }
           .leftOneEchart {
-            background-color: rgba(0, 168, 255, 0.2);
             height: calc(100% - 80px);
             width: 100%;
             position: relative;
@@ -1673,13 +1675,11 @@ export default {
           .leftThreeEchart {
             height: 100%;
             width: 100%;
-            display: flex;
-            justify-content: space-between;
             /deep/ .el-table {
-              flex: none;
               height: 100%;
               width: 100%;
               background-color: transparent;
+              overflow: auto;
               /deep/ .el-table__body {
                 width: 100% !important;
               }
@@ -1730,11 +1730,13 @@ export default {
             /deep/ .el-tabs--border-card {
               background: transparent;
               border: none;
+              height: 100%;
             }
             /deep/ .el-tabs--border-card > .el-tabs__header {
               background: transparent;
               border-bottom: 2px solid #061436;
               color: #fff;
+              height: 41px;
             }
             /deep/ .el-tabs__header .el-tabs__item {
               color: #fff;
@@ -1745,8 +1747,15 @@ export default {
               color: #00a8ff;
             }
             /deep/ .el-tabs--border-card > .el-tabs__content {
-              // height: 72%;
+              height: calc(100% - 57px);
               padding-bottom: 0;
+              overflow: hidden;
+            }
+            /deep/ .el-tab-pane {
+              height: 100%;
+            }
+            /deep/ .el-table::-webkit-scrollbar {
+              display: none;
             }
           }
         }
@@ -1757,7 +1766,7 @@ export default {
         padding: 25px 20px 0 20px;
         .middleOneTitle {
           width: 100%;
-          height: 20%;
+          height: 15%;
           display: flex;
           justify-content: space-between;
           h3 {
@@ -1773,10 +1782,10 @@ export default {
             // width: 50%;
             text-overflow: ellipsis;
             overflow: hidden;
-            font-size: 36px;
+            font-size: 24px;
           }
           .middleOneTitleHistory {
-            margin-top: 15px;
+            margin-top: 5px;
             font-size: 18px;
             span {
               color: #20dbfd;
@@ -1787,18 +1796,20 @@ export default {
           }
           .middleOneTitleSmall {
             width: 20%;
-            background-image: url('../assets/img/ksh40.png');
-            background-size: 100% 100%;
+            background-color: rgba($color: #fff, $alpha: 0.2);
+            // background-image: url('../assets/img/ksh40.png');
+            // background-size: 100% 100%;
           }
           .middleOneTitleBig {
             width: 28%;
-            background-image: url('../assets/img/ksh39.png');
+            // background-image: url('../assets/img/ksh39.png');
+            background-color: rgba($color: #fff, $alpha: 0.2);
             background-size: 100% 100%;
           }
         }
         .middleTwo {
           width: 100%;
-          height: 50%;
+          height: 55%;
           border: 1px solid #00d8ff;
 
           margin-top: 14px;
@@ -1859,6 +1870,8 @@ export default {
           width: 100%;
           overflow: hidden;
           position: relative;
+          border: 1px solid #00d8ff;
+          background-color: rgba(0, 168, 255, 0.2);
 
           .rightOneTitle {
             height: 80px;
@@ -1885,7 +1898,6 @@ export default {
             // margin-top: -17px;
             // position: absolute !important;
             // top: 41px;
-            background-color: rgba(0, 168, 255, 0.2);
             overflow: hidden;
             /deep/ .el-carousel {
               position: absolute;
